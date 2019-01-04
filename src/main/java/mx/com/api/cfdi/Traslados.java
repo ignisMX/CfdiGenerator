@@ -24,17 +24,23 @@ import javax.xml.bind.annotation.XmlType;
 public class Traslados {
 
     @XmlElement(name = "Traslado", required = true)
-    protected List<Traslado> traslado;
+    protected List<TrasladoDetallado> traslado;
 
-    public Traslados() {
-        this.traslado = new ArrayList<Traslado>();
+    public Traslados(){
+        this.traslado = new ArrayList<>();
     }
     
-    public List<Traslado> getTraslado() {
-        return this.traslado;
+    public List<TrasladoDetallado> getTraslado() {
+        return traslado;
+    }
+
+    public void setTraslado(List<TrasladoDetallado> traslado) {
+        this.traslado = traslado;
     }
     
-    public void addTraslado(Traslado traslado){
-        this.traslado.add(traslado);
+    public void addTraslado(TrasladoDetallado traslado){
+        if(this.traslado != null){
+            this.traslado.add(traslado);
+        }
     }
 }

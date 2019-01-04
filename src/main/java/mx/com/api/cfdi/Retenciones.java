@@ -24,18 +24,20 @@ import javax.xml.bind.annotation.XmlType;
 public class Retenciones {
 
     @XmlElement(name = "Retencion", required = true)
-    protected List<Retencion> retencion;
+    protected List<RetencionDetallado> retencion;
 
     public Retenciones() {
-        this.retencion = new ArrayList<Retencion>();
+        this.retencion = new ArrayList<RetencionDetallado>();
     }
     
-    public List<Retencion> getRetencion() {
+    public List<RetencionDetallado> getRetencion() {
         return this.retencion;
     }
     
-    public void addRetencion(Retencion retencion){
-        this.retencion.add(retencion);
+    public void addRetencion(RetencionDetallado retencion){
+        if(this.retencion != null){
+            this.retencion.add(retencion);
+        }
     }
 
 }
