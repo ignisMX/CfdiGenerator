@@ -292,11 +292,11 @@ public class CfdiTest {
         BigDecimal base = new BigDecimal(30);
         TrasladoDetallado trasladoDetallado = Cfdi.NewTrasladoConcepto(base, impuesto, tipoFactor);
         
-        cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().addTraslado(trasladoDetallado);
+        cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().getTraslado().add(trasladoDetallado);
         
         BigDecimal retencionBase = new BigDecimal(30);
         BigDecimal retencionTasaCuota = new BigDecimal(0.16000);
-        BigDecimal retencionImporte = new BigDecimal(130);;
+        BigDecimal retencionImporte = new BigDecimal(130);
         String retencionImpuesto = "";
         String retencionTipoFactor = "";
         

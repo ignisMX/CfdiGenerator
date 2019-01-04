@@ -7,9 +7,16 @@ package mx.com.api.utilities.test;
 
 import mx.com.api.cfdi.Comprobante;
 import mx.com.api.stamp.Cfdi;
+import mx.com.api.cfdi.Concepto;
+import mx.com.api.cfdi.Impuestos;
+import mx.com.api.cfdi.Emisor;
+import mx.com.api.cfdi.Receptor;
+import mx.com.api.cfdi.RetencionDetallado;
+import mx.com.api.cfdi.TrasladoDetallado;
 import mx.com.api.utilities.Util;
 
 import java.util.Date;
+import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -66,7 +73,7 @@ public class UtilTest {
      * Should be able to convert Comprobante object to xml String
      */
     @Test
-    public void testSerialize() throws Exception{
+    public void testSerializeBaseInvoice() throws Exception{
         System.out.println("Serialize");
         String serie = "IN";
         String folio = "00001";
@@ -78,7 +85,56 @@ public class UtilTest {
         String tipoComprobante = "I";
         String lugarExpedicion = "14139";
         Cfdi instance = new Cfdi();
-        Comprobante cfdi = instance.NewCfdi(serie, folio, fecha, numeroCertificado, certificado, moneda, tipoComprobante, lugarExpedicion);
+        Comprobante cfdi = instance.NewCfdi(serie, folio, fecha, numeroCertificado, certificado, moneda, tipoComprobante, lugarExpedicion);String rfc = "XAXX010101000";
+        
+        String nombre = "BestCompany S.A. de C.V.";
+        String regimenFiscal = "601";
+        Emisor issuer = Cfdi.NewEmisor(rfc, regimenFiscal);
+        issuer.setNombre(nombre);
+        cfdi.setEmisor(issuer);
+        
+        String rfcReceiver = "XEXX010101000";
+        String cfdiUse = "P01";
+        String receiverName = "Receptor S.A de R.L.";
+        Receptor receiver = Cfdi.NewReceptor(rfcReceiver, cfdiUse);
+        receiver.setNombre(receiverName);
+        cfdi.setReceptor(receiver);
+        
+        String claveProdServ = "81161501";
+        String unidad = "pieza";
+        String claveUnidad = "H87"; 
+        String descripcion = "Descripcion de un producto";
+        String noIdentificacion = "HPV201";
+        BigDecimal descuento = new BigDecimal(5);
+        BigDecimal cantidad = new BigDecimal(15.0);
+        BigDecimal valorUnitario = new BigDecimal(2);
+        BigDecimal importe = new BigDecimal(30);
+        
+        Concepto concepto = Cfdi.NewConcepto(claveProdServ, cantidad, claveUnidad, descripcion, valorUnitario, importe);
+        concepto.setUnidad(unidad);
+        concepto.setNoIdentificacion(noIdentificacion);
+        concepto.setDescuento(descuento);
+        
+        String impuesto = "002";
+        String tipoFactor = "Tasa";
+        BigDecimal base = new BigDecimal("568.97");
+        BigDecimal importeImpuestoTraslado = new BigDecimal("91.03");
+        BigDecimal tasaCuotaImpuestoTraslado = new BigDecimal("0.160000");
+        TrasladoDetallado trasladoDetallado = Cfdi.NewTrasladoConcepto(base, impuesto, tipoFactor);
+        trasladoDetallado.setImporte(importeImpuestoTraslado);
+        trasladoDetallado.setTasaOCuota(tasaCuotaImpuestoTraslado);
+        concepto.getImpuestos().getTraslados().addTraslado(trasladoDetallado);
+        
+        BigDecimal retencionBase = new BigDecimal("10800.00");
+        BigDecimal retencionTasaCuota = new BigDecimal("0.100000");
+        BigDecimal retencionImporte = new BigDecimal("1080.00");
+        String retencionImpuesto = "001";
+        String retencionTipoFactor = "Tasa";
+        
+        RetencionDetallado retencion  = Cfdi.NewRetencionConcepto(retencionImpuesto, retencionImporte, retencionBase, retencionTipoFactor, retencionTasaCuota);
+        concepto.getImpuestos().getRetenciones().addRetencion(retencion);
+        cfdi.getConceptos().addConcepto(concepto);
+        
         String result = Util.Serialize(cfdi);
         System.out.println(result);
         assertThat(result, not(emptyString()));
