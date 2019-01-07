@@ -29,6 +29,16 @@ public class Traslado {
     @XmlAttribute(name = "Importe", required = true)
     protected BigDecimal importe;
 
+    public Traslado() {
+    }
+
+    public Traslado(String impuesto, String tipoFactor, BigDecimal tasaOCuota, BigDecimal importe) {
+        this.impuesto = impuesto;
+        this.tipoFactor = tipoFactor;
+        this.tasaOCuota = tasaOCuota;
+        this.importe = importe;
+    }
+
     /**
      * Gets the value of the impuesto property.
      *
