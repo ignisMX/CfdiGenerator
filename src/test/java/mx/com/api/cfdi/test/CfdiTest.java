@@ -15,8 +15,11 @@ import mx.com.api.stamp.Cfdi;
 import mx.com.api.cfdi.Concepto;
 import mx.com.api.cfdi.Emisor;
 import mx.com.api.cfdi.Receptor;
+import mx.com.api.cfdi.ResumenImpuestos;
 import mx.com.api.cfdi.RetencionDetallado;
 import mx.com.api.cfdi.TrasladoDetallado;
+import mx.com.api.cfdi.Retencion;
+import mx.com.api.cfdi.Traslado;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.*;
@@ -37,7 +40,6 @@ public class CfdiTest {
         System.out.println("BuildCfdi");
         String serie = "IN";
         String folio = "00001";
-        Date today = new Date();
         XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
         String numeroCertificado = "30001000000300023708";
         String certificado = "";
@@ -361,7 +363,6 @@ public class CfdiTest {
         System.out.println("BuildCfdi With Impuestos");
         String serie = "IN";
         String folio = "00001";
-        Date today = new Date();
         XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
         String numeroCertificado = "30001000000300023708";
         String certificado = "";
@@ -404,22 +405,41 @@ public class CfdiTest {
         concepto.setDescuento(descuento);
         cfdi.getConceptos().addConcepto(concepto);
         
-        String impuesto = "IVA";
+        String impuesto = "001";
         String tipoFactor = "Tasa";
-        BigDecimal base = new BigDecimal(30);
+        BigDecimal base = new BigDecimal("30");
+        BigDecimal importeImpuestoTraslado = new BigDecimal("91.03");
+        BigDecimal trasladoTasaOCuota = new BigDecimal("0.160000");
         TrasladoDetallado trasladoDetallado = Cfdi.NewTrasladoConcepto(base, impuesto, tipoFactor);
+        trasladoDetallado.setImporte(importeImpuestoTraslado);
+        trasladoDetallado.setTasaOCuota(trasladoTasaOCuota);
         
         cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().addTraslado(trasladoDetallado);
         
         BigDecimal retencionBase = new BigDecimal(30);
         BigDecimal retencionTasaCuota = new BigDecimal(0.16000);
-        BigDecimal retencionImporte = new BigDecimal(130);;
-        String retencionImpuesto = "";
-        String retencionTipoFactor = "";
+        BigDecimal retencionImporte = new BigDecimal(130);
+        String retencionImpuesto = "001";
+        String retencionTipoFactor = "Tasa";
         
-        RetencionDetallado retencion  = Cfdi.NewRetencionConcepto(retencionImpuesto, retencionImporte, retencionBase, retencionTipoFactor, retencionTasaCuota);
+        RetencionDetallado retencionDetallado  = Cfdi.NewRetencionConcepto(retencionImpuesto, retencionImporte, retencionBase, retencionTipoFactor, retencionTasaCuota);
         
-        cfdi.getConceptos().getConcepto().get(0).getImpuestos().getRetenciones().addRetencion(retencion);
+        cfdi.getConceptos().getConcepto().get(0).getImpuestos().getRetenciones().addRetencion(retencionDetallado);
+        
+        BigDecimal totalTraslados = new BigDecimal("91.03");
+        BigDecimal totalRetenciones = new BigDecimal("201.70");
+        ResumenImpuestos resumenImpuestos = Cfdi.NewResumenImpuestos(totalTraslados, totalRetenciones);
+        
+        BigDecimal importeResumenRetencion = new BigDecimal("201.70");
+        Retencion resumenRetencion = new Retencion("001", importeResumenRetencion);
+        resumenImpuestos.getRetenciones().addRetencion(resumenRetencion);
+        
+        BigDecimal importeResumenTraslado = new BigDecimal("91.03");
+        BigDecimal tasaOCuotaResumenTraslado = new BigDecimal("0.160000");
+        Traslado resumenTraslado = new Traslado("001", "Tasa", tasaOCuotaResumenTraslado, importeResumenTraslado);
+        resumenImpuestos.getTraslados().addTraslado(resumenTraslado);
+        
+        cfdi.setImpuestos(resumenImpuestos);
         
         assertThat(cfdi, hasProperty("serie", is(serie)));
         assertThat(cfdi, hasProperty("folio", is(folio)));
@@ -460,6 +480,8 @@ public class CfdiTest {
         assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().getTraslado().get(0), hasProperty("base", is(base)));
         assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().getTraslado().get(0), hasProperty("impuesto", is(impuesto)));
         assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().getTraslado().get(0), hasProperty("tipoFactor", is(tipoFactor)));
+        assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().getTraslado().get(0), hasProperty("importe", is(importeImpuestoTraslado)));
+        assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getTraslados().getTraslado().get(0), hasProperty("tasaOCuota", is(trasladoTasaOCuota)));
         
         assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos(), hasProperty("retenciones", notNullValue()));
         assertTrue(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getRetenciones().getRetencion().size() > 0);
@@ -468,6 +490,17 @@ public class CfdiTest {
         assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getRetenciones().getRetencion().get(0), hasProperty("tipoFactor", is(retencionTipoFactor)));
         assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getRetenciones().getRetencion().get(0), hasProperty("importe", is(retencionImporte)));
         assertThat(cfdi.getConceptos().getConcepto().get(0).getImpuestos().getRetenciones().getRetencion().get(0), hasProperty("tasaOCuota", is(retencionTasaCuota)));
+        
+        assertThat(cfdi.getImpuestos(), hasProperty("totalImpuestosTrasladados", is(totalTraslados)));
+        assertThat(cfdi.getImpuestos(), hasProperty("totalImpuestosRetenidos", is(totalRetenciones)));
+        
+        assertThat(cfdi.getImpuestos().getRetenciones().getRetencion().get(0), hasProperty("impuesto",is("001")));
+        assertThat(cfdi.getImpuestos().getRetenciones().getRetencion().get(0), hasProperty("importe",is(importeResumenRetencion)));
+        
+        assertThat(cfdi.getImpuestos().getTraslados().getTraslado().get(0), hasProperty("importe",is(importeResumenTraslado)));
+        assertThat(cfdi.getImpuestos().getTraslados().getTraslado().get(0), hasProperty("tasaOCuota",is(tasaOCuotaResumenTraslado)));
+        assertThat(cfdi.getImpuestos().getTraslados().getTraslado().get(0), hasProperty("impuesto",is("001")));
+        assertThat(cfdi.getImpuestos().getTraslados().getTraslado().get(0), hasProperty("tipoFactor",is("Tasa")));
     }
     
     

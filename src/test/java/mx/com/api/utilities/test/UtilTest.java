@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import mx.com.api.cfdi.ResumenImpuestos;
+import mx.com.api.cfdi.Retencion;
+import mx.com.api.cfdi.Traslado;
 
 
 import static org.hamcrest.Matchers.not;
@@ -135,6 +138,21 @@ public class UtilTest {
         concepto.getImpuestos().getRetenciones().addRetencion(retencion);
         cfdi.getConceptos().addConcepto(concepto);
         
+        BigDecimal totalTraslados = new BigDecimal("91.03");
+        BigDecimal totalRetenciones = new BigDecimal("201.70");
+        ResumenImpuestos resumenImpuestos = Cfdi.NewResumenImpuestos(totalTraslados, totalRetenciones);
+        
+        BigDecimal importeResumenRetencion = new BigDecimal("201.70");
+        Retencion resumenRetencion = new Retencion("001", importeResumenRetencion);
+        resumenImpuestos.getRetenciones().addRetencion(resumenRetencion);
+        
+        BigDecimal importeResumenTraslado = new BigDecimal("201.70");
+        BigDecimal tasaOCuotaResumenTraslado = new BigDecimal("0.160000");
+        Traslado resumenTraslado = new Traslado("001", "Tasa", tasaOCuotaResumenTraslado, importeResumenTraslado);
+        resumenImpuestos.getTraslados().addTraslado(resumenTraslado);
+        
+        cfdi.setImpuestos(resumenImpuestos);
+        
         String result = Util.Serialize(cfdi);
         System.out.println(result);
         assertThat(result, not(emptyString()));
@@ -148,7 +166,6 @@ public class UtilTest {
         System.out.println("Deserialize");
         String serie = "IN";
         String folio = "00001";
-        Date today = new Date();
         XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
         String numeroCertificado = "30001000000300023708";
         String certificado = certificate;
