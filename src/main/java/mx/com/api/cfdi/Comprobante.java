@@ -39,7 +39,7 @@ public class Comprobante {
     @XmlElement(name = "Conceptos", required = true)
     protected Conceptos conceptos;
     @XmlElement(name = "Impuestos")
-    protected ImpuestosDetallados impuestos;
+    protected ResumenImpuestos impuestos;
     @XmlElement(name = "Complemento")
     protected List<Complemento> complemento;
     @XmlElement(name = "Addenda")
@@ -82,7 +82,7 @@ public class Comprobante {
     protected String confirmacion;
 
     public Comprobante() {
-        this.impuestos = new ImpuestosDetallados();
+        this.impuestos = new ResumenImpuestos();
         this.conceptos = new Conceptos();
     }
     
@@ -173,7 +173,7 @@ public class Comprobante {
      * @return possible object is {@link Comprobante.Impuestos }
      *
      */
-    public ImpuestosDetallados getImpuestos() {
+    public ResumenImpuestos getImpuestos() {
         return impuestos;
     }
 
@@ -183,7 +183,7 @@ public class Comprobante {
      * @param value allowed object is {@link Comprobante.Impuestos }
      *
      */
-    public void setImpuestos(ImpuestosDetallados value) {
+    public void setImpuestos(ResumenImpuestos value) {
         this.impuestos = value;
     }
 
