@@ -58,4 +58,9 @@ public class Cfdi {
         RetencionDetallado withHoldingDetail = new RetencionDetallado(impuesto, importe, base, tipoFactor, TasaCuota);
         return withHoldingDetail;
     }
+    
+    public static ResumenImpuestos NewResumenImpuestos( BigDecimal totalTraslados, BigDecimal totalRetenciones){
+        ResumenImpuestos taxSummary = new ResumenImpuestos(totalRetenciones, totalTraslados);
+        return taxSummary;
+    }
 }
