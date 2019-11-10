@@ -5,27 +5,27 @@
  */
 package mx.com.api.cfdi;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+import mx.com.api.cfdi.complemento.tfd.TimbreFiscalDigital;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "any"
+    "tfd"
 })
 public class Complemento {
 
     @XmlAnyElement(lax = true)
-    protected List<Object> any;
+    protected TimbreFiscalDigital tfd;
 
-    public List<Object> getAny() {
-        if (any == null) {
-            any = new ArrayList<Object>();
-        }
-        return this.any;
+    public TimbreFiscalDigital getTfd() {
+        return tfd;
     }
 
+    public void setTfd(TimbreFiscalDigital tfd) {
+        this.tfd = tfd;
+    }
 }

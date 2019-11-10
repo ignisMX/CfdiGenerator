@@ -7,8 +7,6 @@
 package mx.com.api.cfdi;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -41,7 +39,7 @@ public class Comprobante {
     @XmlElement(name = "Impuestos")
     protected ResumenImpuestos impuestos;
     @XmlElement(name = "Complemento")
-    protected List<Complemento> complemento;
+    protected Complemento complemento;
     @XmlElement(name = "Addenda")
     protected Addenda addenda;
     @XmlAttribute(name = "Version", required = true)
@@ -84,6 +82,7 @@ public class Comprobante {
     public Comprobante() {
         this.impuestos = new ResumenImpuestos();
         this.conceptos = new Conceptos();
+        this.complemento = new Complemento();
     }
     
     
@@ -187,11 +186,8 @@ public class Comprobante {
         this.impuestos = value;
     }
 
-    public List<Complemento> getComplemento() {
-        if (complemento == null) {
-            complemento = new ArrayList<Complemento>();
-        }
-        return this.complemento;
+    public void setComplemento(Complemento complemento) {
+        this.complemento = complemento;
     }
 
     /**
