@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.com.api.stamp;
+package mx.com.api.factory;
 
 import java.math.BigDecimal;
 import mx.com.api.cfdi.*;
@@ -16,7 +16,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Cfdi {
     public Cfdi(){}
     
-    public static Comprobante NewCfdi(String serie, String folio,XMLGregorianCalendar fecha, 
+    public static Comprobante createInstance(String serie, String folio,XMLGregorianCalendar fecha, 
             String numeroCertificado, String certificado, String moneda, String tipoComprobante,
             String lugarExpedicion){
         
@@ -33,20 +33,20 @@ public class Cfdi {
         return cfdi;
     }
     
-    public static Emisor NewEmisor(String rfc, String regimenFiscal){
+    public static Emisor createEmisor(String rfc, String regimenFiscal){
         return new Emisor(rfc, regimenFiscal);
     }
     
-    public static Receptor NewReceptor(String rfc, String usoCFDI){
+    public static Receptor createReceptor(String rfc, String usoCFDI){
         return new Receptor(rfc, usoCFDI);
     }
     
-    public static Concepto NewConcepto(String claveProdServ, BigDecimal cantidad, String claveUnidad, 
+    public static Concepto createConcepto(String claveProdServ, BigDecimal cantidad, String claveUnidad, 
             String descripcion, BigDecimal valorUnitario, BigDecimal importe){
         return new Concepto(claveProdServ, cantidad, claveUnidad, descripcion, valorUnitario, importe);
     }
     
-    public static TrasladoDetallado NewTrasladoConcepto(BigDecimal base, String impuesto, String tipoFactor) {
+    public static TrasladoDetallado createTrasladoConcepto(BigDecimal base, String impuesto, String tipoFactor) {
         TrasladoDetallado transfferDetail = new TrasladoDetallado();
         transfferDetail.setBase(base);
         transfferDetail.setImpuesto(impuesto);
@@ -54,12 +54,12 @@ public class Cfdi {
         return transfferDetail;
     }
     
-    public static RetencionDetallado NewRetencionConcepto( String impuesto, BigDecimal importe, BigDecimal base,String tipoFactor, BigDecimal TasaCuota) {
+    public static RetencionDetallado createRetencionConcepto( String impuesto, BigDecimal importe, BigDecimal base,String tipoFactor, BigDecimal TasaCuota) {
         RetencionDetallado withHoldingDetail = new RetencionDetallado(impuesto, importe, base, tipoFactor, TasaCuota);
         return withHoldingDetail;
     }
     
-    public static ResumenImpuestos NewResumenImpuestos( BigDecimal totalTraslados, BigDecimal totalRetenciones){
+    public static ResumenImpuestos createResumenImpuestos( BigDecimal totalTraslados, BigDecimal totalRetenciones){
         ResumenImpuestos taxSummary = new ResumenImpuestos(totalRetenciones, totalTraslados);
         return taxSummary;
     }

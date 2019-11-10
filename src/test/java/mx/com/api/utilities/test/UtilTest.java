@@ -6,14 +6,14 @@
 package mx.com.api.utilities.test;
 
 import mx.com.api.cfdi.Comprobante;
-import mx.com.api.stamp.Cfdi;
+import mx.com.api.factory.Cfdi;
 import mx.com.api.cfdi.Concepto;
 import mx.com.api.cfdi.Impuestos;
 import mx.com.api.cfdi.Emisor;
 import mx.com.api.cfdi.Receptor;
 import mx.com.api.cfdi.RetencionDetallado;
 import mx.com.api.cfdi.TrasladoDetallado;
-import mx.com.api.utilities.Util;
+import mx.com.api.util.Util;
 
 import java.util.Date;
 import java.math.BigDecimal;
@@ -88,18 +88,18 @@ public class UtilTest {
         String tipoComprobante = "I";
         String lugarExpedicion = "14139";
         Cfdi instance = new Cfdi();
-        Comprobante cfdi = instance.NewCfdi(serie, folio, fecha, numeroCertificado, certificado, moneda, tipoComprobante, lugarExpedicion);String rfc = "XAXX010101000";
+        Comprobante cfdi = instance.createInstance(serie, folio, fecha, numeroCertificado, certificado, moneda, tipoComprobante, lugarExpedicion);String rfc = "XAXX010101000";
         
         String nombre = "BestCompany S.A. de C.V.";
         String regimenFiscal = "601";
-        Emisor issuer = Cfdi.NewEmisor(rfc, regimenFiscal);
+        Emisor issuer = Cfdi.createEmisor(rfc, regimenFiscal);
         issuer.setNombre(nombre);
         cfdi.setEmisor(issuer);
         
         String rfcReceiver = "XEXX010101000";
         String cfdiUse = "P01";
         String receiverName = "Receptor S.A de R.L.";
-        Receptor receiver = Cfdi.NewReceptor(rfcReceiver, cfdiUse);
+        Receptor receiver = Cfdi.createReceptor(rfcReceiver, cfdiUse);
         receiver.setNombre(receiverName);
         cfdi.setReceptor(receiver);
         
@@ -113,7 +113,7 @@ public class UtilTest {
         BigDecimal valorUnitario = new BigDecimal(2);
         BigDecimal importe = new BigDecimal(30);
         
-        Concepto concepto = Cfdi.NewConcepto(claveProdServ, cantidad, claveUnidad, descripcion, valorUnitario, importe);
+        Concepto concepto = Cfdi.createConcepto(claveProdServ, cantidad, claveUnidad, descripcion, valorUnitario, importe);
         concepto.setUnidad(unidad);
         concepto.setNoIdentificacion(noIdentificacion);
         concepto.setDescuento(descuento);
@@ -123,7 +123,7 @@ public class UtilTest {
         BigDecimal base = new BigDecimal("568.97");
         BigDecimal importeImpuestoTraslado = new BigDecimal("91.03");
         BigDecimal tasaCuotaImpuestoTraslado = new BigDecimal("0.160000");
-        TrasladoDetallado trasladoDetallado = Cfdi.NewTrasladoConcepto(base, impuesto, tipoFactor);
+        TrasladoDetallado trasladoDetallado = Cfdi.createTrasladoConcepto(base, impuesto, tipoFactor);
         trasladoDetallado.setImporte(importeImpuestoTraslado);
         trasladoDetallado.setTasaOCuota(tasaCuotaImpuestoTraslado);
         concepto.getImpuestos().getTraslados().addTraslado(trasladoDetallado);
@@ -134,13 +134,13 @@ public class UtilTest {
         String retencionImpuesto = "001";
         String retencionTipoFactor = "Tasa";
         
-        RetencionDetallado retencion  = Cfdi.NewRetencionConcepto(retencionImpuesto, retencionImporte, retencionBase, retencionTipoFactor, retencionTasaCuota);
+        RetencionDetallado retencion  = Cfdi.createRetencionConcepto(retencionImpuesto, retencionImporte, retencionBase, retencionTipoFactor, retencionTasaCuota);
         concepto.getImpuestos().getRetenciones().addRetencion(retencion);
         cfdi.getConceptos().addConcepto(concepto);
         
         BigDecimal totalTraslados = new BigDecimal("91.03");
         BigDecimal totalRetenciones = new BigDecimal("201.70");
-        ResumenImpuestos resumenImpuestos = Cfdi.NewResumenImpuestos(totalTraslados, totalRetenciones);
+        ResumenImpuestos resumenImpuestos = Cfdi.createResumenImpuestos(totalTraslados, totalRetenciones);
         
         BigDecimal importeResumenRetencion = new BigDecimal("201.70");
         Retencion resumenRetencion = new Retencion("001", importeResumenRetencion);
@@ -173,7 +173,7 @@ public class UtilTest {
         String tipoComprobante = "I";
         String lugarExpedicion = "14139";
         Cfdi instance = new Cfdi();
-        Comprobante cfdi = instance.NewCfdi(serie, folio, fecha, numeroCertificado, certificado, moneda, tipoComprobante, lugarExpedicion);
+        Comprobante cfdi = instance.createInstance(serie, folio, fecha, numeroCertificado, certificado, moneda, tipoComprobante, lugarExpedicion);
         String xmlString = Util.Serialize(cfdi);
         
         Comprobante result = Util.Deserialize(xmlString);
