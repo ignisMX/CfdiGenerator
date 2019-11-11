@@ -27,6 +27,9 @@ public class RetencionDetallado extends Retencion {
     @XmlAttribute(name = "TasaOCuota", required = true)
     protected BigDecimal tasaOCuota;
 
+    public RetencionDetallado() {
+    }
+    
     public RetencionDetallado(String impuesto, BigDecimal importe, BigDecimal base, String tipoFactor, BigDecimal tasaOCuota) {
         super(impuesto, importe);
         this.base = base;
