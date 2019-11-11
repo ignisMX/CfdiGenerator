@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.com.api.utilities.test;
+package mx.com.api.cfdi.util;
 
 
 import mx.com.api.cfdi.Emisor;
