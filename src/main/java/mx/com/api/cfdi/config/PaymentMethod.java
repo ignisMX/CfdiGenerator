@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.com.api.config;
+package mx.com.api.cfdi.config;
 
 /**
  *
  * @author ignis
  */
-public class GenericRfc {
-    public static final String PUBLICO_GENERAL_NACIONAL = "XAXX010101000";
-    public static final String PUBLICO_GENERAL_EXTRANJERO = "XEXX010101000";
+public class PaymentMethod {
+    public static final String EXHIBICION_UNICA = "PUE";
+    public static final String PARCIALIDADES = "PPD";
 }

@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.com.api.config;
+package mx.com.api.cfdi.config;
 
 /**
  *
  * @author ignis
  */
-public class PaymentMethod {
-    public static final String EXHIBICION_UNICA = "PUE";
-    public static final String PARCIALIDADES = "PPD";
+public class Tax {
+    public static final String IVA = "001";
+    public static final String ISR = "002";
+    public static final String IEPS = "003";
 }

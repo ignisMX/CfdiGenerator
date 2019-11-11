@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.com.api.config;
+package mx.com.api.cfdi.config;
 
 /**
  *
  * @author ignis
  */
-public class FactorType {
-    public static final String TASA = "Tasa";
-    public static final String CUOTA = "Cuota";
-    public static final String EXENTO = "Exento";
+public class GenericRfc {
+    public static final String PUBLICO_GENERAL_NACIONAL = "XAXX010101000";
+    public static final String PUBLICO_GENERAL_EXTRANJERO = "XEXX010101000";
 }

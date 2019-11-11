@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.com.api.factory;
+package mx.com.api.cfdi.factory;
 
 import java.math.BigDecimal;
 import mx.com.api.cfdi.*;
+import mx.com.api.cfdi.complemento.tfd.TimbreFiscalDigital;
 import javax.xml.datatype.XMLGregorianCalendar;
 /**
  *
@@ -54,13 +55,21 @@ public class Cfdi {
         return transfferDetail;
     }
     
-    public static RetencionDetallado createRetencionConcepto( String impuesto, BigDecimal importe, BigDecimal base,String tipoFactor, BigDecimal TasaCuota) {
+    public static RetencionDetallado createRetencionConcepto( String impuesto, 
+            BigDecimal importe, BigDecimal base,String tipoFactor, BigDecimal TasaCuota) {
         RetencionDetallado withHoldingDetail = new RetencionDetallado(impuesto, importe, base, tipoFactor, TasaCuota);
         return withHoldingDetail;
     }
     
-    public static ResumenImpuestos createResumenImpuestos( BigDecimal totalTraslados, BigDecimal totalRetenciones){
+    public static ResumenImpuestos createResumenImpuestos( BigDecimal totalTraslados, 
+            BigDecimal totalRetenciones){
         ResumenImpuestos taxSummary = new ResumenImpuestos(totalRetenciones, totalTraslados);
         return taxSummary;
+    }
+    
+    public static TimbreFiscalDigital createTimbreFiscalDigital(String uuid, 
+            XMLGregorianCalendar fechaTimbrado, String rfcProvCertif, String selloCFD, 
+            String noCertificadoSAT, String selloSAT){
+        return new TimbreFiscalDigital(uuid, fechaTimbrado, rfcProvCertif, selloCFD, noCertificadoSAT, selloSAT);
     }
 }
