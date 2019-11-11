@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
 import mx.com.api.cfdi.Comprobante;
-import mx.com.api.factory.Cfdi;
+import mx.com.api.cfdi.factory.Cfdi;
 import mx.com.api.cfdi.Concepto;
 import mx.com.api.cfdi.Emisor;
 import mx.com.api.cfdi.Receptor;
