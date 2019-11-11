@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.datatype.XMLGregorianCalendar;
-import mx.com.api.config.XSD;
+import mx.com.api.cfdi.config.XSD;
 /**
  *
  * @author ignis
@@ -57,6 +57,8 @@ public class TimbreFiscalDigital {
         this.selloCFD = selloCFD;
         this.noCertificadoSAT = noCertificadoSAT;
         this.selloSAT = selloSAT;
+        this.prefix = XSD.TFD_PREFIX;
+        this.schemaLocation = XSD.TFD_SCHEMALOCATION;
     }
     
     public String getVersion() {
