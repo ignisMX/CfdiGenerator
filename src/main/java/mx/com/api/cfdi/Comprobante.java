@@ -186,6 +186,10 @@ public class Comprobante {
         this.impuestos = value;
     }
 
+    public Complemento getComplemento() {
+        return complemento;
+    }
+
     public void setComplemento(Complemento complemento) {
         this.complemento = complemento;
     }
