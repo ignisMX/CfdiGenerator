@@ -6,7 +6,6 @@
 package mx.com.api.cfdi.test;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
@@ -66,7 +65,6 @@ public class CfdiTest {
         System.out.println("BuildCfdi With Emisor");
         String serie = "IN";
         String folio = "00001";
-        Date today = new Date();
         XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
         String numeroCertificado = "30001000000300023708";
         String certificado = "";
@@ -106,7 +104,6 @@ public class CfdiTest {
         System.out.println("BuildCfdi With Receptor");
         String serie = "IN";
         String folio = "00001";
-        Date today = new Date();
         XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
         String numeroCertificado = "30001000000300023708";
         String certificado = "";
@@ -161,7 +158,6 @@ public class CfdiTest {
         System.out.println("BuildCfdi With Conceptos");
         String serie = "IN";
         String folio = "00001";
-        Date today = new Date();
         XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
         String numeroCertificado = "30001000000300023708";
         String certificado = "";
@@ -246,7 +242,6 @@ public class CfdiTest {
         System.out.println("BuildCfdi With Conceptos And Impuestos");
         String serie = "IN";
         String folio = "00001";
-        Date today = new Date();
         XMLGregorianCalendar fecha = DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar());
         String numeroCertificado = "30001000000300023708";
         String certificado = "";
